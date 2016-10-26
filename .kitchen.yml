@@ -1,0 +1,26 @@
+---
+driver:
+  -name: ec2
+  aws_ssh_key_id: park-apollo
+  transport.ssh_key: ~/.ssh/park-apollo.id_rsa
+  region: us-east-1
+  require_chef_omnibus: true
+  associate_public_ip: true
+  interface: dns
+  security_group_ids: sg-ae66c5c9
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos-7
+    driver:
+      image_id: ami-6d1c2007
+    transport:
+      username: ec2-user
+
+suites:
+  - name: default
+    run_list:
+      - recipe[stress-ng]
+    attributes:
